@@ -1,0 +1,35 @@
+{%extends 'all_apps/base.html'%} 
+{% block content %}
+<div class="container"style="font-family: 'Baloo Bhai', cursive">
+
+  <div class="row"style="color:black">
+    {% if users %}
+      <h2>Found {{ services|length }} of searched term {{message}}</h2>
+    {% else %}
+      <h2> Found 0 services for the search term {{message}}</h2>
+    {% endif %}
+
+  </div>
+
+  <div class="row align-items-center">
+
+  {% if services %}
+    {% for s in services %}
+    <div class="thumbnail">
+        <div class="card">
+        <div class="card-body" >
+            
+     
+        <p style="color:black"><strong>service name</strong>{{s.name}}</p>
+        
+          
+        </div>
+          </div>
+          </div>
+      
+    {% endfor %}
+  </div>
+  {% endif %}
+  </div>
+
+{% endblock %}

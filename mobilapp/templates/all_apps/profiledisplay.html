@@ -1,0 +1,128 @@
+{%extends "all_apps/base.html"%}
+{% block content %}
+{{block.super}}
+
+<style>
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: 100%;
+  }
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+  .container {
+    padding: 2px 16px;
+  }
+</style>
+<!-- <div class="row">
+ 
+  <div class="col-md-6">{%  for item in business_name%}
+      <h2>{{item.name}}</h2>
+      {% endfor%}</div>
+</div> -->
+<h2>{{item.location}}</h2>
+
+<header class="masthead text-white text-center"
+    style="  position: relative;background-color: #343A40;background: url('https://c.stocksy.com/a/Ack500/z9/1370830.jpg?1566833692') no-repeat center center;background-size: cover;padding-top: 8rem;padding-bottom: 8rem;">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-9 mx-auto">
+          <h1 class="mb-5" style="color:white">Get exposure on a reliable platform</h1>
+        </div>
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form>
+            <div class="form-row">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+ <div class="row">
+        <div class="col-md-4">
+                <div class="card">
+      <h2>Customer satisfaction</2>
+      
+          {% for c in comment %}
+          <span><p>{{c.feedback}}</p></span>
+          
+          {% endfor %}
+        </div>
+        </div>
+    
+       
+     <div class="col-md-4">
+         <div class="card">
+ 
+    <h2>Completed Tasks</h2>
+    <table style="width:50%">
+      <tr>
+        <th>Task</th>
+        <th>customer</th>
+        <th>Date</th>
+      </tr>
+      <tr>
+        <td>Fixing the toilet</td>
+        <td>julia</td>
+        <td>2019-10-10</td>
+      </tr>
+      <tr>
+        <td>Changing the bulb</td>
+        <td>nicole</td>
+        <td>2019-10-10</td>
+      </tr>
+      <tr>
+        <td>Changing the bulb</td>
+        <td>stacy</td>
+        <td>2019-10-10</td>
+      </tr>
+    </table>
+    <br>
+  </div>
+</div>
+<div class="col-md-4">
+        <div class="card">
+
+    <h2>upcoming tasks</h2>
+    <table style="width:50%">
+      <tr>
+        <th>Overdue</th>
+        <th>Task</th>
+        <th>customer</th>
+        <th>Deadline</th>
+      </tr>
+      <tr>
+        <td>1 Day</td>
+        <td>Fixing the toilet</td>
+        <td>julia</td>
+        <td>2019-10-10</td>
+      </tr>
+      <tr>
+        <td>4 Day</td>
+        <td>Changing the bulb</td>
+        <td>nicole</td>
+        <td>2019-10-10</td>
+      </tr>
+      <tr>
+        <td>6 Day</td>
+        <td>Changing the bulb</td>
+        <td>stacy</td>
+        <td>2019-10-10</td>
+      </tr>
+    </table>
+    <br>
+    </div>
+    </div>
+
+</div>
+
+   
+ 
+{% endblock %}
