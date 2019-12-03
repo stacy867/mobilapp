@@ -1,0 +1,11 @@
+{%extends "all_apps/base.html"%}
+{% block content %}
+{{block.super}}
+<div class="container">
+    {% for s in services %}
+    <p>{{s.name}}</p>
+    <p>{{s.description}}</p>
+    {%endfor%}
+</div>
+<p>aaaaaaaaaaaaa</p>
+{%endblock%}

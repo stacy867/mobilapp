@@ -43,9 +43,10 @@ class NewBookingForm(forms.ModelForm):
 class CompanyProfileForm(forms.ModelForm):
     class Meta:
         model = CompanyProfile
-        fields = ('name', 'email','location',)
+        exclude=['approved']
+        fields = ['name', 'email','location']
     
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('feedback','service','companyprofile')       
+        fields = ['feedback','service','companyprofile']      

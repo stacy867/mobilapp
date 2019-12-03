@@ -124,7 +124,7 @@ def registration_view(request):
 	return render(request,'registration/registration_form.html', context)
 
 @login_required(login_url='register/')
-def new_service(request,category_id):
+def new_service(request):
 	current_user = request.user
 	if request.method == 'POST':
 		form = NewServiceForm(request.POST,request.FILES)
@@ -133,11 +133,13 @@ def new_service(request,category_id):
 			s_post = form.save(commit=False)
 			# s_post.user = current_user
 			s_post.save()
-		return redirect('service',category_id)
+		return redirect('all-services')
 	else:
 		form = NewServiceForm()
-	return render(request,'new_service.html',{"form": form,"category_id":category_id})
-		
+	return render(request,'new_service.html',{"form": form})
+def all_services(request):
+    services=Services.objects.all()	
+    return render(request,'all_services.html',{"services":services})	
 
 	
 def service(request,category_id):
@@ -240,11 +242,19 @@ def profile_form(request):
 @login_required(login_url='register/')
 def company_profile(request):
     current_user = request.user
-    business_name = CompanyProfile.objects.all()
+    business_name = CompanyProfile.objects.filter(user=current_user.id).first()
+    services = Services.objects.filter(name=current_user.id).all()
+    message=None
+    if  business_name is None:
+        message="you are not registered as a business"
+    elif business_name.approved == False:
+         message="check in 2 hrs"
+    else:
+        message="Welcome to your dashboard"
     # categories = Category.objects.get(id=category_id)
     comment = Comment.objects.all()
     # email = CompanyProfile.objects.filter(user=current_user)
 
     # location = CompanyProfile.objects.filter(user=current_user)
 
-    return render(request, 'all_apps/profiledisplay.html', {"business_name": business_name, "current_user": current_user, "comment": comment})
+    return render(request, 'all_apps/profiledisplay.html', {"business_name": business_name, "current_user": current_user, "comment": comment,"message":message,"services":services})

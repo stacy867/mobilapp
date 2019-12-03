@@ -7,14 +7,15 @@ from django.conf.urls.static import static
 urlpatterns=[
 
     url('^$',views.welcome,name = 'welcome'),
-    url(r'^newservice/(?P<category_id>\d+)',views.new_service,name = 'new-service'),
+    url(r'^newservice/',views.new_service,name = 'new-service'),
     url(r'^newbooking/',views.new_booking,name = 'new-booking'),
     url(r'^service/(?P<category_id>\d+)',views.service,name = 'service'),
     url(r'^search/',views.search_results,name = 'search'),
     url(r'^account/profileform', views.profile_form, name='profile'),
-    url(r'^account/profiledisplay', views.company_profile, name='profiledisplay'),
+    url(r'^account/profiledisplay/', views.company_profile, name='profiledisplay'),
     url(r'^new/comment/', views.new_comment, name='new-comment'),
     url(r'^comment/(?P<service_id>\d+)', views.comment, name='comment'),
+    url(r'^allservices/', views.all_services, name='all-services'),
  
 
     url(r'login/',views.login_view,name = 'login'),

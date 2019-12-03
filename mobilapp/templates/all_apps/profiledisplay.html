@@ -15,22 +15,51 @@
     padding: 2px 16px;
   }
 </style>
-<!-- <div class="row">
- 
-  <div class="col-md-6">{%  for item in business_name%}
-      <h2>{{item.name}}</h2>
-      {% endfor%}</div>
-</div> -->
+
 <h2>{{item.location}}</h2>
 
 <header class="masthead text-white text-center"
     style="  position: relative;background-color: #343A40;background: url('https://c.stocksy.com/a/Ack500/z9/1370830.jpg?1566833692') no-repeat center center;background-size: cover;padding-top: 8rem;padding-bottom: 8rem;">
     <div class="overlay"></div>
-    <div class="container">
+    <div class="container" style="color:black">
       <div class="row">
         <div class="col-xl-9 mx-auto">
-          <h1 class="mb-5" style="color:white">Get exposure on a reliable platform</h1>
+          <h1 class="mb-5" style="color:black">Get exposure on a reliable platform</h1>
         </div>
+        <div>
+          {% if business_name %}
+          {% if business_name.approved == False %}
+          <h1>{{message}}</h1>
+          <p>go to the page to register</p>
+          <a href="{% url 'profile'%}">create your business account</a>
+          {% else %}
+        </div>
+      <div class ="container">
+        <div class="row">
+          {%for serv in services %}
+          <div class="col-md-4">
+            <div class="zoombox">
+              <p>{{serv.name}}</p>
+              <p>{{serv.email}}</p>
+              <p>{{serv.location}}</p>
+              <a href="{%url 'new-service' %}"><strong>Register Service</strong></a>
+            </div>
+
+          </div>
+          {% empty %}
+          <div class="row">
+            <h2 style="text-align: center">There are no services yet</h2>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+     
+         {%endif%}
+         {%endif%}
+         
+         
+          
+  </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
           <form>
             <div class="form-row">
@@ -123,6 +152,5 @@
 
 </div>
 
-   
+  {%endblock%} 
  
-{% endblock %}
