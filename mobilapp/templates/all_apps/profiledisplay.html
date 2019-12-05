@@ -14,6 +14,92 @@
   .container {
     padding: 2px 16px;
   }
+  .topnav {
+  position: relative;
+  background-color:white;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+
+
+.topnav:hover:before {
+  transform: scaleX(1);
+}
+ 
+.topnav a:hover {
+  background-color:blue;
+  color: black;
+  
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Centered section inside the top navigation */
+.topnav-centered a {
+  float: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Right-aligned section inside the top navigation */
+.topnav-right {
+  float: right;
+}
+
+/* Responsive navigation menu - display links on top of each other instead of next to each other (for mobile devices) */
+@media screen and (max-width: 600px) {
+  .topnav a, .topnav-right {
+    float: none;
+    display: block;
+  }
+
+  .topnav-centered a {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+}
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 90%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
 </style>
 
 <h2>{{item.location}}</h2>
@@ -27,8 +113,8 @@
           <h1 class="mb-5" style="color:black">Get exposure on a reliable platform</h1>
         </div>
         <div>
-          {% if business_name %}
-          {% if business_name.approved == False %}
+          {% if company_name %}
+          {% if company_name.approved == False %}
           <h1>{{message}}</h1>
           <p>go to the page to register</p>
           <a href="{% url 'profile'%}">create your business account</a>
@@ -36,25 +122,21 @@
         </div>
       <div class ="container">
         <div class="row">
-          {%for serv in services %}
-          <div class="col-md-4">
-            <div class="zoombox">
-              <p>{{serv.name}}</p>
-              <p>{{serv.email}}</p>
-              <p>{{serv.location}}</p>
+         
               <a href="{%url 'new-service' %}"><strong>Register Service</strong></a>
             </div>
 
           </div>
-          {% empty %}
+         
           <div class="row">
+       
             <h2 style="text-align: center">There are no services yet</h2>
           </div>
-          {% endfor %}
+          {%endif%}
         </div>
       </div>
      
-         {%endif%}
+         
          {%endif%}
          
          
@@ -71,86 +153,66 @@
   </header>
   <br>
   <br>
-  <br>
-  <br>
-  <br>
- <div class="row">
-        <div class="col-md-4">
-                <div class="card">
-      <h2>Customer satisfaction</2>
-      
-          {% for c in comment %}
-          <span><p>{{c.feedback}}</p></span>
-          
-          {% endfor %}
-        </div>
-        </div>
+  
+  <div class="topnav">
+    <!-- <div class="topnav-centered">
+            <a href="{% url 'new-booking' %}"><strong>Book service</strong></a>
+     </div> -->
+<!-- Left-aligned links (default) -->
+<div>
+    <a href="{%url 'new-service' %}"><strong>Register Service</strong></a>
+    <a href="#contact"></a>
+</div>
+<div class="topnav-right">
+            <a href="#howitworks"><strong>How it works</strong></a>
+     </div>
+
+</div>
+<hr>
+<h2 style="text-align: center">Bookings For services</h2>
+<hr>
+<div class="row ">
     
-       
-     <div class="col-md-4">
-         <div class="card">
+    
+    <!-- <table>
+        <tr>
+          <th>Service</th>
+          <th>customer name</th>
+          <th>Time</th>
+        </tr>
+        
+        <tr>
+            {%for serv in service1 %}
+          <td>{{serv.name}}</td>
+          {%for b in serv.booking_set.all %}
+          <td>{{b.name}}</td>
+          <td>{{b.time}}</td>
+          {%endfor%}
+          
+        </tr>
+        {%endfor%}
+        </table>
+   -->
+   <table id="customers">
+      <tr>
+        <th>Business</th>
+        <th>Contact</th>
+        <th>Time</th>
+      </tr>
+      {%for serv in service1 %}
+      <tr>  
+        <td>{{serv.name}}</td>
+      
+        {%for b in serv.booking_set.all %}
+        <td>{{b.name}}</td>
+        <td>{{b.time}}</td>
+        {%endfor%}
+        
+      </tr>
+      {%endfor%}
+      </table>
+</div>
  
-    <h2>Completed Tasks</h2>
-    <table style="width:50%">
-      <tr>
-        <th>Task</th>
-        <th>customer</th>
-        <th>Date</th>
-      </tr>
-      <tr>
-        <td>Fixing the toilet</td>
-        <td>julia</td>
-        <td>2019-10-10</td>
-      </tr>
-      <tr>
-        <td>Changing the bulb</td>
-        <td>nicole</td>
-        <td>2019-10-10</td>
-      </tr>
-      <tr>
-        <td>Changing the bulb</td>
-        <td>stacy</td>
-        <td>2019-10-10</td>
-      </tr>
-    </table>
-    <br>
-  </div>
-</div>
-<div class="col-md-4">
-        <div class="card">
-
-    <h2>upcoming tasks</h2>
-    <table style="width:50%">
-      <tr>
-        <th>Overdue</th>
-        <th>Task</th>
-        <th>customer</th>
-        <th>Deadline</th>
-      </tr>
-      <tr>
-        <td>1 Day</td>
-        <td>Fixing the toilet</td>
-        <td>julia</td>
-        <td>2019-10-10</td>
-      </tr>
-      <tr>
-        <td>4 Day</td>
-        <td>Changing the bulb</td>
-        <td>nicole</td>
-        <td>2019-10-10</td>
-      </tr>
-      <tr>
-        <td>6 Day</td>
-        <td>Changing the bulb</td>
-        <td>stacy</td>
-        <td>2019-10-10</td>
-      </tr>
-    </table>
-    <br>
-    </div>
-    </div>
-
-</div>
 
   {%endblock%} 
  

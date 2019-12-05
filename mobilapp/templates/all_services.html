@@ -1,11 +1,129 @@
 {%extends "all_apps/base.html"%}
 {% block content %}
-{{block.super}}
-<div class="container">
+{{block.super}}}
+{% load bootstrap4 %}
+{% load staticfiles %}
+
+
+<style>
+ 
+.topnav {
+  position: relative;
+  background-color:white;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+
+
+.topnav:hover:before {
+  transform: scaleX(1);
+}
+ 
+.topnav a:hover {
+  background-color:blue;
+  color: black;
+  
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Centered section inside the top navigation */
+.topnav-centered a {
+  float: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Right-aligned section inside the top navigation */
+.topnav-right {
+  float: right;
+}
+
+/* Responsive navigation menu - display links on top of each other instead of next to each other (for mobile devices) */
+@media screen and (max-width: 600px) {
+  .topnav a, .topnav-right {
+    float: none;
+    display: block;
+  }
+
+  .topnav-centered a {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+}
+
+</style>
+                <header class="masthead text-white text-center" style="position: relative;background-color: #343a40;opacity:1;background: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60') no-repeat center center;background-size: cover;padding-top: 8rem;padding-bottom: 8rem;">
+                    
+                        <div class="overlay"></div>
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-xl-9 mx-auto">
+                              <h1 class="mb-5" style="color:rgb(250, 250, 250);font-size: 60px">Get instant access to reliable and affordable services</h1>
+                            </div>
+                            <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                              <form action="{%url 'search'%}">
+                                <div class="form-row">
+                                  <div class="col-12 col-md-9 mb-2 mb-md-0">
+                                    <input type="search" class="form-control form-control-lg" placeholder="what service are you looking for?" name="service">
+                                  </div>
+                                  <div class="col-12 col-md-3">
+                                    <button type="submit" class="btn btn-block btn-lg btn-primary">search</button>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </header><br><br>
+        
+
+        
+                       <h1 style="text-align: center">Explore Different Services</h1>
+        <hr style="width:190%">
+        <div class="container">
     {% for s in services %}
-    <p>{{s.name}}</p>
-    <p>{{s.description}}</p>
-    {%endfor%}
+    <div class="row">
+            <div class="col-md-4"><br><br>
+    <img src="{{s.image.url}}"height=300 width=330>
+    
 </div>
-<p>aaaaaaaaaaaaa</p>
-{%endblock%}
+<div class="col-md-4"><br><br>
+    <h5><strong></strong>{{s.name}}</h4><br>
+    <h6><strong></strong>{{s.description}}</h6><br>
+    <a href="http://maps.google.com/maps?q={{s.location}}"><h4 ><strong></strong>{{s.location}}</h4></a>
+    <p>{{s.company}}</p>
+    
+</div>
+<div class="col-md-4" style="margin-top:20%">
+         <a href="{% url 'new-booking' %}" > <button  style="width:50%"type="submit" class="btn btn-block btn-lg btn-primary">Book the service </button></a>
+</div>
+   
+
+</div>
+<strong><hr style="background-color: rgb(148, 144, 144)"></strong>
+    {% endfor %}
+    </div>
+  
+    
+    
+{% endblock %}    

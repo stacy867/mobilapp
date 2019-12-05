@@ -63,7 +63,7 @@
                 <div class="card-content">
                     <div class="thumbnail" style="margin-top:5%;padding:1%">
                             <h1 style="text-align: center">Register Your Business</h1>
-                        <form  action="{%url 'profile'%}" method="post" enctype="multipart/form-data">
+                        <form  action="{%url 'profile' %}" method="post" enctype="multipart/form-data">
     {%csrf_token%}
     {% bootstrap_form form layout='inline' %}
     <input type="submit" class="btn btn-primary btn-lg" value="Register">

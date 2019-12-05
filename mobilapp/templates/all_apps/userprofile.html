@@ -1,0 +1,22 @@
+{%extends "all_apps/base.html"%}
+{% block content %}
+{{block.super}}
+
+    
+<div class="container">
+    <div class="row">
+        <h3>hello {{current_user.username}} here are the services u have booked for</h3><br>
+        </div>
+        <div class="row">
+        {%for b in bookings %}
+        <div class="col-md-4">
+        <p>{{b.service}}</p>
+    </div>
+    <div class="col-md-4">
+        <a class="btn btn-blog btn-lg btn-primary">Task complete</a>
+    </div>
+        {%endfor%}
+        <P></P>
+    </div>
+</div>
+{% endblock %}

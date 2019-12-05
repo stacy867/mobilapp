@@ -38,6 +38,7 @@ class NewServiceForm(forms.ModelForm):
 class NewBookingForm(forms.ModelForm):
     class Meta:
         model = Booking
+        exclude=['user']
         fields = ['name','telephone','email','location','time','service']
 
 class CompanyProfileForm(forms.ModelForm):
@@ -49,4 +50,4 @@ class CompanyProfileForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['feedback','service','companyprofile']      
+        fields = ['name','feedback','service','companyprofile']      

@@ -7,44 +7,7 @@
     <meta name="HandheldFriendly" content="true">
 </head>
 <body>
-        <!-- <nav class="navbar navbar-expand-lg navbar-light btn btn-block btn-lg btn-danger"style="color:white">
-                <a style="color:white;font: normal 36px 'Cookie', cursive;"class="navbar-brand" href="#">Mobil<span style="color:  #5e6b83;">App</span></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-              
-                <div class="collapse navbar-collapse" id="navbarSupportedContent"style="color:white;margin-left:30%" >
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                      <a style="color:white;float:right"class="nav-link" href="{% url 'welcome'%}">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                  
-                   
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                            <a style="color:white "class="nav-link" href="{%url 'profiledisplay'%}">Dashboard</a>
-                          </li>
-                         
-                    <li class="nav-item dropdown">
-                      <a style="color:white"class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Logout
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdown"style="color:white">
-                        <a class="dropdown-item" href="#"></a>
-                        <a class="dropdown-item" href="{% url 'logout'%}">logout</a>
-                        <div class="dropdown-divider"></div>
-                       
-                      </div>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                      <a  style="color:white" class="nav-link disabled" href="{% url 'login'%}" tabindex="-1" aria-disabled="true">login</a>
-                    </li>
-                    {% endif %}
-                  </ul>
-                  
-                </div>
-              </nav> -->
+        
               <style>
                 body {
                   font-family: "Lato", sans-serif;
@@ -109,7 +72,7 @@
                   {% else %}
                   <a class="nav-link disabled" href="{% url 'login'%}" tabindex="-1" aria-disabled="true">login</a>
                   {% endif %}
-                  <a href="{% url 'profile' %}" ><span  >Register your business</span></a>
+                 
                   <a href="#category" ><span  onclick="window.location.href = '#category'">Get a service</span></a>
                 </div>
                 

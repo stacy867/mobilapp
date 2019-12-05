@@ -125,18 +125,19 @@ def registration_view(request):
 
 @login_required(login_url='register/')
 def new_service(request):
-	current_user = request.user
-	if request.method == 'POST':
-		form = NewServiceForm(request.POST,request.FILES)
-		if form.is_valid():
-			print("cgfjhk")
-			s_post = form.save(commit=False)
-			# s_post.user = current_user
-			s_post.save()
-		return redirect('all-services')
-	else:
-		form = NewServiceForm()
-	return render(request,'new_service.html',{"form": form})
+    current_user = request.user
+    companyprofile=CompanyProfile.objects.filter(user=current_user).first()
+    if request.method == 'POST':
+        form = NewServiceForm(request.POST,request.FILES)
+        if form.is_valid():
+            print("cgfjhk")
+            s_post = form.save(commit=False)
+            s_post.companyprofile = companyprofile
+            s_post.save()
+        return redirect('all-services')
+    else:
+        form = NewServiceForm()
+    return render(request,'new_service.html',{"form": form})
 def all_services(request):
     services=Services.objects.all()	
     return render(request,'all_services.html',{"services":services})	
@@ -151,32 +152,33 @@ def service(request,category_id):
 	print(services)
 	return render(request,'service.html',{"services":services,"category_id":category_id,"bookingForm":form})
 
+@login_required(login_url='register/')
 def new_booking(request):
-    
-	current_user = request.user
-	if request.method == 'POST':
-		form = NewBookingForm(request.POST,request.FILES)
-		if form.is_valid():
-			print("cgfjhk")
-			book_post = form.save(commit=False)
-			book_post.save()
-			name = form.cleaned_data['name']
-			email = form.cleaned_data['email']
-			telephone = form.cleaned_data['telephone']
-			location = form.cleaned_data['location']
-			time = form.cleaned_data['time']
-			service = form.cleaned_data['service']
+        
+        current_user = request.user
+        if request.method == 'POST':
+            form = NewBookingForm(request.POST,request.FILES)
+            if form.is_valid():
+                print("cgfjhk")
+               
+                name = form.cleaned_data['name']
+                email = form.cleaned_data['email']
+                telephone = form.cleaned_data['telephone']
+                location = form.cleaned_data['location']
+                time = form.cleaned_data['time']
+                service = form.cleaned_data['service']
 
-			recipient = Booking(name = name,email =email,telephone=telephone,location=location,time=time,service=service)
-			recipient.save()
-			send_welcome_email(name,email)
-
-			HttpResponseRedirect('new-comment')
+                recipient = Booking(name = name,email =email,telephone=telephone,location=location,time=time,service=service)
+                recipient.user=current_user
+                recipient.save()
+                send_welcome_email(name,email)
     
-        # return render(request,'index.html')
-	else:
-		form = NewBookingForm()
-	return render(request,'new_booking.html',{"form": form})
+                return redirect('user-profile')
+    
+
+        else:
+            form = NewBookingForm()
+        return render(request,'new_booking.html',{"form": form})
  		
 	
 
@@ -206,13 +208,13 @@ def new_comment(request):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.user = current_user
-            comment.service = service
+            # comment.service = service
             comment.save()
             return redirect('welcome')
 
     else:
         form = CommentForm()
-    return render(request, 'new_booking.html', {"form": form, "service": service})
+    return render(request, 'new_comment.html', {"form": form, "service": service})
 
 
 def comment(request, service_id):
@@ -242,19 +244,33 @@ def profile_form(request):
 @login_required(login_url='register/')
 def company_profile(request):
     current_user = request.user
-    business_name = CompanyProfile.objects.filter(user=current_user.id).first()
-    services = Services.objects.filter(name=current_user.id).all()
+    company_name = CompanyProfile.objects.filter(user=current_user.id).first()
+    service1=Services.objects.filter(companyprofile=company_name).all().prefetch_related('booking_set')
+    # booking=Booking.objects.get(service=service1.id).all()
+    
     message=None
-    if  business_name is None:
+    if  company_name is None:
         message="you are not registered as a business"
-    elif business_name.approved == False:
+    elif company_name.approved == False:
          message="check in 2 hrs"
     else:
         message="Welcome to your dashboard"
-    # categories = Category.objects.get(id=category_id)
+   
     comment = Comment.objects.all()
-    # email = CompanyProfile.objects.filter(user=current_user)
+    
+   
 
-    # location = CompanyProfile.objects.filter(user=current_user)
+    return render(request, 'all_apps/profiledisplay.html', {"company_name": company_name, "current_user": current_user, "comment": comment,"message":message,"service1":service1})
 
-    return render(request, 'all_apps/profiledisplay.html', {"business_name": business_name, "current_user": current_user, "comment": comment,"message":message,"services":services})
+@login_required(login_url='register/')
+def user_profile(request):
+    current_user = request.user
+    bookings=Booking.objects.filter(user=current_user.id).all()
+    
+    return render(request,'all_apps/userprofile.html',{"bookings":bookings,"current_user":current_user})
+
+@login_required(login_url='register/')
+def complete_task(request):
+    current_user = request.user
+    
+    complete=Booking.objects.filter(user=current_user.id).update(complete=True)

@@ -1,6 +1,10 @@
 
 {%extends 'all_apps/base.html'%}
-{% load bootstrap3 %} {% load staticfiles %}
+{% load bootstrap3 %}
+{% load bootstrap4 %}
+{% load staticfiles %}
+{% block content %}
+{{block.super}}
 <!DOCTYPE html>
 <html>
 
@@ -17,13 +21,117 @@
 </head>
 
 <body>
-{% block content %}
-  <form  action="{%url 'new-comment' service_id%}" method="post"  enctype="multipart/form-data">
-    {%csrf_token%}
+    <style>
+        .contact{
+          padding: 4%;
+          height: 400px;
+        }
+        .col-md-3{
+          background: blue;
+          padding: 4%;
+          border-top-left-radius: 0.5rem;
+          border-bottom-left-radius: 0.5rem;
+        }
+        .contact-info{
+          margin-top:10%;
+        }
+        .contact-info img{
+          margin-bottom: 15%;
+        }
+        .contact-info h2{
+          margin-bottom: 10%;
+        }
+        .col-md-9{
+          background: #fff;
+          padding: 3%;
+          border-top-right-radius: 0.5rem;
+          border-bottom-right-radius: 0.5rem;
+        }
+      
+        input{
+          background: #4e54c2;
+          color: #fff;
+          font-weight: 600;
+          width: 25%;
+      
+        }
+      
+      .contact-form{
+          background: #fff;
+          margin-top: 10%;
+          margin-bottom: 5%;
+          width: 70%;
+          background: -webkit-linear-gradient(left, #0072ff, #00c6ff);
+      }
+      .contact-form .form-control{
+          border-radius:1rem;
+      }
+      .contact-image{
+          text-align: center;
+      }
+      .contact-image img{
+          border-radius: 6rem;
+          width: 11%;
+          margin-top: -3%;
+          transform: rotate(29deg);
+      }
+      .contact-form form{
+          padding: 14%;
+      }
+      .contact-form form .row{
+          margin-bottom: -7%;
+      }
+      .contact-form h3{
+          margin-bottom: 8%;
+          margin-top: -10%;
+          text-align: center;
+          color: #0062cc;
+      }
+      .contact-form .btnContact {
+          width: 50%;
+          border: none;
+          border-radius: 1rem;
+          padding: 1.5%;
+          background: #dc3545;
+          font-weight: 600;
+          color: #fff;
+          cursor: pointer;
+      }
+      .btnContactSubmit
+      {
+          width: 50%;
+          border-radius: 1rem;
+          padding: 1.5%;
+          color: #fff;
+          background-color: #4e54c2;
+          border: none;
+          cursor: pointer;
+      }
+        </style>
 
-    {% bootstrap_form form%}
-    <input  href=""type="submit" class="btn btn-success btn-lg" value="Post">
-  </form>
+<div class="row"  id="review">
+  <!-- <h1 style="text-align: center">Leave a Review</h1> -->
+    <div class="container contact-form">
+        <div class="contact-image">
+            <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact"/>
+        </div>
+        <form method="post" action="{% url 'new-comment'%}">
+            <h3>Leave Us a Review</h3>
+          {%csrf_token%}
+          {% bootstrap_form form%}
+           
+           <div class="row">
+                <div class="col-md-6">
+                   
+                    <div class="form-group">
+                        <input type="submit" name="btnSubmit" class="btnContact" value="Send Feedback" />
+                    </div>
+                </div>
+               
+            </div>
+        </form>
+</div>
+</div>
 
    {% block scripts %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

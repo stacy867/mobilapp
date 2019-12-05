@@ -79,12 +79,38 @@ class Category(models.Model):
 			category = cls.objects.get(id=category_id)
 			return category		
 
+class CompanyProfile(models.Model):
+    name = models.CharField(max_length=70)
+    email = models.EmailField(max_length=250)
+    location = models.SlugField(max_length=500)
+    user = models.OneToOneField(Account, on_delete=models.CASCADE,null=True)
+    approved = models.BooleanField(default= False)
+    # booking=models.ForeignKey(Booking,on_delete=models.CASCADE,null=True)
+    
+
+    def __str__(self):
+        return self.name
+
+        @classmethod
+        def find_category(cls, category_id):
+            category = category.id
+            category1 = cls.objects.get(category=category_id)
+            return category1
+        
+        @classmethod
+        def find_service(cls, service_id):
+            service = service.id
+            service1 = cls.objects.get(service=service_id)
+            return service1
+        
+        
+        
 
 class Services(models.Model):
 	name=models.CharField(max_length=70)
 	category=models.ForeignKey(Category,on_delete=models.CASCADE)
 	description=models.CharField(max_length=250)
-	# companyprofile=models.ForeignKey(CompanyProfile,on_delete=models.CASCADE)
+	companyprofile=models.ForeignKey(CompanyProfile,on_delete=models.CASCADE,null=True)
 	location=models.SlugField(max_length=500)
 	image = models.ImageField(upload_to='images/')
 
@@ -98,6 +124,11 @@ class Services(models.Model):
 		category=category.id
 		category1 = cls.objects.get(category=category_id)
 		return category1
+	@classmethod
+	def find_company(cls,company_id):
+		company=companyprofile.id
+		company1 = cls.objects.get(company=company_id)
+		return company1
 
 	@classmethod
 	def search_by_name(cls,service):
@@ -112,8 +143,10 @@ class Booking(models.Model):
 	email=models.EmailField(max_length=70)
 	location=models.SlugField(max_length=100)
 	time=models.DateTimeField()
+	user = models.ForeignKey(Account, on_delete=models.CASCADE)
 	# category=models.ForeignKey(Category,on_delete=models.CASCADE)
 	service=models.ForeignKey(Services,on_delete=models.CASCADE)
+	complete=models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.name
@@ -122,26 +155,16 @@ class Booking(models.Model):
 		def find_service(cls,service_id):
 			service=service.id
 			service1 = cls.objects.get(service=service_id)
-			return service1							
+			return service1
+
+		@classmethod
+		def find_user(cls,user_id):
+			user=user.id
+			user1 = cls.objects.get(user=user_id)
+			return user1							
 
         
-class CompanyProfile(models.Model):
-    name = models.CharField(max_length=70)
-    email = models.EmailField(max_length=250)
-    location = models.SlugField(max_length=500)
-    user = models.OneToOneField(Account, on_delete=models.CASCADE,null=True)
-    approved = models.BooleanField(default= False)
-    
 
-    def __str__(self):
-        return self.name
-
-        @classmethod
-        def find_category(cls, category_id):
-            category = category.id
-            category1 = cls.objects.get(category=category_id)
-            return category1 
-        
 class Comment(models.Model):
     feedback = models.CharField(max_length=30, null=True)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
