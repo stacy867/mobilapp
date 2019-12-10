@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate,logout
 from .email import send_welcome_email
-from mobilapp.forms import RegistrationForm,AccountAuthenticationForm,NewServiceForm,NewBookingForm,CompanyProfileForm,CommentForm
-from mobilapp.models import Account,Category,Services,Booking,Comment,CompanyProfile
+from mobilapp.forms import RegistrationForm,AccountAuthenticationForm,NewServiceForm,NewBookingForm,CompanyProfileForm,CommentForm,UserProfileForm
+from mobilapp.models import Account,Category,Services,Booking,Comment,CompanyProfile,UserProfile
 from django.http import JsonResponse,HttpResponseRedirect
 
 
@@ -123,7 +123,7 @@ def registration_view(request):
 		context['registration_form'] = form
 	return render(request,'registration/registration_form.html', context)
 
-@login_required(login_url='register/')
+@login_required
 def new_service(request):
     current_user = request.user
     companyprofile=CompanyProfile.objects.filter(user=current_user).first()
@@ -138,6 +138,7 @@ def new_service(request):
     else:
         form = NewServiceForm()
     return render(request,'new_service.html',{"form": form})
+
 def all_services(request):
     services=Services.objects.all()	
     return render(request,'all_services.html',{"services":services})	
@@ -152,7 +153,7 @@ def service(request,category_id):
 	print(services)
 	return render(request,'service.html',{"services":services,"category_id":category_id,"bookingForm":form})
 
-@login_required(login_url='register/')
+@login_required
 def new_booking(request):
         
         current_user = request.user
@@ -161,24 +162,24 @@ def new_booking(request):
             if form.is_valid():
                 print("cgfjhk")
                
-                name = form.cleaned_data['name']
-                email = form.cleaned_data['email']
+                userprofile = form.cleaned_data['userprofile']
                 telephone = form.cleaned_data['telephone']
                 location = form.cleaned_data['location']
                 time = form.cleaned_data['time']
                 service = form.cleaned_data['service']
+                email = form.cleaned_data['email']
 
-                recipient = Booking(name = name,email =email,telephone=telephone,location=location,time=time,service=service)
+                recipient = Booking(userprofile = userprofile,telephone=telephone,location=location,time=time,service=service,email=email)
                 recipient.user=current_user
                 recipient.save()
-                send_welcome_email(name,email)
+                send_welcome_email(userprofile,email)
     
                 return redirect('user-profile')
     
 
         else:
             form = NewBookingForm()
-        return render(request,'new_booking.html',{"form": form})
+        return render(request,'new_booking.html',{"form": form,"current_user":current_user})
  		
 	
 
@@ -224,8 +225,8 @@ def comment(request, service_id):
         raise Http404()
     return render(request, "all_apps/profiledisplay.html", {"comment": comment})
 
-@login_required(login_url='register/')
-def profile_form(request):
+@login_required
+def companyprofile_form(request):
     current_user = request.user
     profile = CompanyProfile.objects.filter(user=current_user).first()
     if request.method == 'POST':
@@ -240,13 +241,30 @@ def profile_form(request):
         form = CompanyProfileForm(instance=profile)
     return render(request, 'registration/profile.html', {"form": form})
 
+@login_required
+def userprofile_form(request):
+    current_user = request.user
+    profile = UserProfile.objects.filter(user=current_user).first()
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = current_user
+            profile.save()
+        return redirect('user-profile')
 
-@login_required(login_url='register/')
+    else:
+        form = UserProfileForm(instance=profile)
+    return render(request, 'registration/userform.html', {"form": form})    
+
+
+@login_required
 def company_profile(request):
     current_user = request.user
     company_name = CompanyProfile.objects.filter(user=current_user.id).first()
     service1=Services.objects.filter(companyprofile=company_name).all().prefetch_related('booking_set')
     # booking=Booking.objects.get(service=service1.id).all()
+    # complete_task=Booking.objects.filter(user=current_user.id).update(complete =True)
     
     message=None
     if  company_name is None:
@@ -260,17 +278,24 @@ def company_profile(request):
     
    
 
-    return render(request, 'all_apps/profiledisplay.html', {"company_name": company_name, "current_user": current_user, "comment": comment,"message":message,"service1":service1})
+    return render(request, 'all_apps/profiledisplay.html', {"company_name": company_name,"complete_task":complete_task, "current_user": current_user, "comment": comment,"message":message,"service1":service1})
 
-@login_required(login_url='register/')
+@login_required
 def user_profile(request):
     current_user = request.user
     bookings=Booking.objects.filter(user=current_user.id).all()
+    profile = UserProfile.objects.filter(user=current_user).first()
     
-    return render(request,'all_apps/userprofile.html',{"bookings":bookings,"current_user":current_user})
+    return render(request,'all_apps/userprofile.html',{"bookings":bookings,"current_user":current_user,"profile":profile})
 
-@login_required(login_url='register/')
+@login_required
 def complete_task(request):
     current_user = request.user
     
-    complete=Booking.objects.filter(user=current_user.id).update(complete=True)
+    complete_task=Booking.objects.filter(user=current_user.id).update(complete =True)
+   
+    
+    return redirect("user-profile")
+
+    
+        

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 
-from .models import Account,Services,Booking,CompanyProfile,Comment
+from .models import Account,Services,Booking,CompanyProfile,Comment,UserProfile
 
 
 class RegistrationForm(UserCreationForm):
@@ -39,13 +39,19 @@ class NewBookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         exclude=['user']
-        fields = ['name','telephone','email','location','time','service']
+        fields = ['userprofile','telephone','location','time','service','email']
 
 class CompanyProfileForm(forms.ModelForm):
     class Meta:
         model = CompanyProfile
         exclude=['approved']
         fields = ['name', 'email','location']
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        exclude=['service','user']
+        fields = ['name', 'telephone','location']        
     
 class CommentForm(forms.ModelForm):
     class Meta:

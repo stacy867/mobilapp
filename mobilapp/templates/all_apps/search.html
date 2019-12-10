@@ -6,28 +6,37 @@
     {% if users %}
       <h2>Found {{ services|length }} of searched term {{message}}</h2>
     {% else %}
-      <h2> Found 0 services for the search term {{message}}</h2>
+      <!-- <h2> Found 0 services for the search term {{message}}</h2> -->
     {% endif %}
 
   </div>
 
-  <div class="row align-items-center">
+ 
 
   {% if services %}
+  
     {% for s in services %}
-    <div class="thumbnail">
-        <div class="card">
-        <div class="card-body" >
-            
-     
-        <p style="color:black"><strong>service name</strong>{{s.name}}</p>
-        
-          
-        </div>
-          </div>
-          </div>
-      
+    <div class="row">
+            <div class="col-md-4"><br><br>
+    <img src="{{s.image.url}}"height=300 width=330>
+    
+</div>
+<div class="col-md-4"><br><br>
+    <h5><strong></strong>{{s.name}}</h4><br>
+    <h6><strong></strong>{{s.description}}</h6><br>
+    <a href="http://maps.google.com/maps?q={{s.location}}"><h4 ><strong></strong>{{s.location}}</h4></a>
+    <p>{{s.company}}</p>
+    
+</div>
+<div class="col-md-4" style="margin-top:20%">
+         <a href="{% url 'new-booking' %}" > <button  style="width:50%"type="submit" class="btn btn-block btn-lg btn-primary">Book the service </button></a>
+</div>
+   
+
+</div>
+<strong><hr style="background-color: rgb(148, 144, 144)"></strong>
     {% endfor %}
+    </div>
   </div>
   {% endif %}
   </div>
