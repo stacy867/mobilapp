@@ -11,12 +11,14 @@ urlpatterns=[
     url(r'^newbooking/',views.new_booking,name = 'new-booking'),
     url(r'^service/(?P<category_id>\d+)',views.service,name = 'service'),
     url(r'^search/',views.search_results,name = 'search'),
-    url(r'^account/profileform/', views.profile_form, name='profile'),
+    url(r'^account/companyprofileform/', views.companyprofile_form, name='companyprofile-form'),
+     url(r'^account/userprofileform/', views.userprofile_form, name='userprofile-form'),
     url(r'^account/profiledisplay/', views.company_profile, name='profiledisplay'),
     url(r'^new/comment/', views.new_comment, name='new-comment'),
     url(r'^comment/(?P<service_id>\d+)', views.comment, name='comment'),
     url(r'^allservices/', views.all_services, name='all-services'),
     url(r'^userprofile/', views.user_profile, name='user-profile'),
+    url(r'^completedtask/', views.complete_task, name='task-complete'),
  
 
     url(r'login/',views.login_view,name = 'login'),

@@ -27,7 +27,7 @@
 		height: 400px;
 	}
 	.col-md-3{
-		background: blue;
+		background: #5383d3;
 		padding: 4%;
 		border-top-left-radius: 0.5rem;
 		border-bottom-left-radius: 0.5rem;
@@ -61,7 +61,7 @@
     margin-top: 10%;
     margin-bottom: 5%;
     width: 70%;
-    background: -webkit-linear-gradient(left, #0072ff, #00c6ff);
+    /* background: -webkit-linear-gradient(left, #0072ff, #00c6ff); */
 }
 .contact-form .form-control{
     border-radius:1rem;
@@ -85,7 +85,7 @@
     margin-bottom: 8%;
     margin-top: -10%;
     text-align: center;
-    color: #0062cc;
+    color: #5383d3;
 }
 .contact-form .btnContact {
     width: 50%;
@@ -129,7 +129,7 @@
                             {%csrf_token%}
                         
                             {% bootstrap_form form%}
-                            <input  href=""type="submit" class="btn btn-primary btn-lg" value="Post" data-toggle="modal" data-target="#myModal">
+                            <input  href=""type="submit" class="btn btn-blog btn-lg btn-#5383d3" value="Post" data-toggle="modal" data-target="#myModal">
                             <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
@@ -138,10 +138,10 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"></button>
-          <h4 class="modal-title">Hi There ,</h4>
+          <h4 class="modal-title">Hi There ,{{current_user.username}}</h4>
         </div>
         <div class="modal-body">
-          <p>Thank you for booking your service with us.<br>Don't hesitate to leave us a review<br>We want to make it better for you</p>
+          <p>Thank you for booking your service with us.<br>We want to make it better for you</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

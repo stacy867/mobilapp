@@ -2,6 +2,8 @@
 {% block content %}
 {{block.super}}
 
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 <style>
   .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -80,7 +82,7 @@
 #customers {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 90%;
+  width: 50%;
 }
 
 #customers td, #customers th {
@@ -96,7 +98,7 @@
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #4CAF50;
+  background-color: #5383d3;
   color: white;
 }
 
@@ -121,16 +123,12 @@
           {% else %}
         </div>
       <div class ="container">
-        <div class="row">
-         
-              <a href="{%url 'new-service' %}"><strong>Register Service</strong></a>
-            </div>
-
+        
           </div>
          
           <div class="row">
        
-            <h2 style="text-align: center">There are no services yet</h2>
+            <h2 style="text-align: center"></h2>
           </div>
           {%endif%}
         </div>
@@ -143,22 +141,16 @@
           
   </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-          <form>
-            <div class="form-row">
-            </div>
-          </form>
+          
         </div>
-      </div>
-    </div>
+     
+    
   </header>
   <br>
   <br>
   
   <div class="topnav">
-    <!-- <div class="topnav-centered">
-            <a href="{% url 'new-booking' %}"><strong>Book service</strong></a>
-     </div> -->
-<!-- Left-aligned links (default) -->
+  
 <div>
     <a href="{%url 'new-service' %}"><strong>Register Service</strong></a>
     <a href="#contact"></a>
@@ -171,48 +163,85 @@
 <hr>
 <h2 style="text-align: center">Bookings For services</h2>
 <hr>
-<div class="row ">
-    
-    
-    <!-- <table>
-        <tr>
-          <th>Service</th>
-          <th>customer name</th>
-          <th>Time</th>
-        </tr>
-        
-        <tr>
-            {%for serv in service1 %}
-          <td>{{serv.name}}</td>
-          {%for b in serv.booking_set.all %}
-          <td>{{b.name}}</td>
-          <td>{{b.time}}</td>
-          {%endfor%}
-          
-        </tr>
-        {%endfor%}
-        </table>
-   -->
+<div class="w3-container">
+    {%for serv in service1 %}
+    <h1>Upcoming tasks</h1>
    <table id="customers">
       <tr>
         <th>Business</th>
-        <th>Contact</th>
+        <th>Customer Name</th>
         <th>Time</th>
+        <th>Location</th>
       </tr>
       {%for serv in service1 %}
       <tr>  
         <td>{{serv.name}}</td>
       
         {%for b in serv.booking_set.all %}
-        <td>{{b.name}}</td>
+        {% if b.complete == False %}
+        <td> {{b.userprofile}}</td>
         <td>{{b.time}}</td>
+        <td>{{b.location}}</td>
+        {% else %}
+        
+        <table id="customers">
+          <tr>
+              <th>Service</th>
+          <th>Customer Name</th>
+          
+          
+        </tr>
+        <tr>
+          <h1>Completed task</h1>
+          <td>{{serv.name}}</td> 
+        <td> {{b.userprofile}}</td>
+        
+      </tr>
+        </table>
+        {% endif %}
         {%endfor%}
         
       </tr>
       {%endfor%}
       </table>
+      <!-- <div class="w3-bar w3-indigo">
+          <button class="w3-bar-item w3-button" onclick="openCity('London')">Completed Tasks</button>
+          <button class="w3-bar-item w3-button" onclick="openCity('Paris')">Upcoming Tasks</button>
+        </div>
+      
+      <div id="London" class="w3-container city">
+          
+          {%for b in serv.booking_set.all %}
+        {% if b.complete == True %}
+        <p><strong>Service name:</strong>{{b.service}}</p>
+        <p><strong>Client's name:</strong>{{b.name}}</p>
+        <p><strong>Booking time:</strong>{{b.time}}</p>
+        <hr>
+        </div>
+        {% else %}
+        
+        <div id="Paris" class="w3-container city" style="display:none">
+          <h2>Upcoming Task</h2>
+          <p>{{b.name}}</p>
+          <p>{{b.location}}</p>
+          <p>{{b.telephone}}</p>
+          <p>{{b.time}}</p>  
+        </div>
+        {% endif %}
+        {%endfor%}
+       {%endfor%}
 </div>
- 
-
+<script>
+    function openCity(cityName) {
+      var i;
+      var x = document.getElementsByClassName("city");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";  
+      }
+      document.getElementById(cityName).style.display = "block";  
+    }
+    </script> -->
+<br>
+<br>
   {%endblock%} 
  
